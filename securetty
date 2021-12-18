@@ -1,0 +1,2 @@
+# File which lists terminals from which root can log in.
+# See securetty(5) for details.

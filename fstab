@@ -1,0 +1,19 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sdb1
+UUID=077ed446-0f28-47d8-9035-429e68646cb3	/         	ext4      	rw,noatime	0 1
+
+# /dev/sda1
+UUID=2B16-BFAB      	/boot     	vfat      	rw,noatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro,nosuid,noexec,nodev	0 2
+
+# /dev/sda2
+UUID=23768a03-9b4d-4185-9283-5335b43c6a36	/home     	ext4      	rw,noatime,nosuid,noexec,nodev		0 2
+
+# /dev/sdb2
+UUID=bd3b5c86-641d-4906-b5bd-50e7f7f564a8	none      	swap      	defaults  	0 0
+
+proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0
+
+#hugetlbfs /dev/hugepages hugetlbfs mode=1770,gid=974 0 0
