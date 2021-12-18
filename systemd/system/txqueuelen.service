@@ -1,0 +1,17 @@
+[Unit]
+Description=Set txqueuelen
+After=network.service
+BindsTo=sys-subsystem-net-devices-bond0.device
+After=sys-subsystem-net-devices-bond0.device
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ip l set eno1 txqueuelen 8000
+ExecStart=/usr/bin/ip l set enp1s0f0 txqueuelen 8000
+ExecStart=/usr/bin/ip l set enp1s0f1 txqueuelen 8000
+ExecStart=/usr/bin/ip l set enp3s0f0 txqueuelen 8000
+ExecStart=/usr/bin/ip l set enp3s0f1 txqueuelen 8000
+ExecStart=/usr/bin/ip l set bond0 txqueuelen 8000
+
+[Install]
+WantedBy=multi-user.target
