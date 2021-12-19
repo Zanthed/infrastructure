@@ -1,0 +1,2 @@
+RNGD_OPTS="--fill-watermark=4096"
+HRNGDEVICE=/dev/hwrng
