@@ -1,0 +1,28 @@
+DataDirectory /var/lib/tor
+User tor
+ORPort 0.0.0.0:993
+ServerTransportPlugin obfs4 exec /usr/bin/obfs4proxy
+ServerTransportListenAddr obfs4 0.0.0.0:8888
+ContactInfo <june@eridan.me>
+Nickname ZanthedBridge
+SocksPort 0
+BridgeRelay 1
+ExitRelay 0
+
+ExtOrPort auto
+Log notice stdout
+
+ExitPolicy reject *:*
+DisableDebuggerAttachment 1
+ControlPort 9051
+CookieAuthentication 1
+
+RelayBandwidthRate 400 Mbits
+RelayBandwidthBurst 650 Mbits
+
+HardwareAccel 1
+#DisableAllSwap 1
+#MaxMemInQueues 4096 Mbytes
+
+HiddenServiceDir /var/lib/tor/tor-hidden-service/
+HiddenServicePort 80 unix:/var/run/tor-hidden-service.sock
