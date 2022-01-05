@@ -4,7 +4,7 @@ GRUB_DEFAULT=0
 GRUB_TIMEOUT=1
 GRUB_DISTRIBUTOR="Arch"
 GRUB_CMDLINE_LINUX_DEFAULT="loglevel=0 quiet"
-GRUB_CMDLINE_LINUX="slab_nomerge slub_debug=FZ init_on_alloc=1 init_on_free=1 pti=on vsyscall=none debugfs=off oops=panic module.sig_enforce=1 lockdown=confidentiality mce=0 spectre_v2=on spec_store_bypass_disable=on tsx=off tsx_async_abort=full kvm.nx_huge_pages=force random.trust_cpu=off audit=0 nosoftlockup idle=poll skew_tick=1 intel_pstate=disable intel_iommu=on efi=disable_early_pci_dma extra_latent_entropy threadedirqs"
+GRUB_CMDLINE_LINUX="slab_nomerge slub_debug=FZ init_on_alloc=1 init_on_free=1 pti=on vsyscall=none debugfs=off oops=panic module.sig_enforce=1 lockdown=confidentiality mce=0 spectre_v2=on spec_store_bypass_disable=on tsx=off tsx_async_abort=full kvm.nx_huge_pages=force random.trust_cpu=off audit=0 nosoftlockup idle=poll skew_tick=1 intel_pstate=disable intel_iommu=on efi=disable_early_pci_dma extra_latent_entropy threadedirqs randomize_kstack_offset=1"
 
 # Preload both GPT and MBR modules so that they are not missed
 GRUB_PRELOAD_MODULES="part_gpt part_msdos"
