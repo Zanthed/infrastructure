@@ -2,18 +2,19 @@
 # See fstab(5) for details.
 
 # <file system> <dir> <type> <options> <dump> <pass>
-# /dev/sdb1
-UUID=077ed446-0f28-47d8-9035-429e68646cb3	/         	ext4      	rw,noatime	0 1
+
+# /dev/nvme0n1p1
+UUID=5edd20a6-d531-4660-b6bf-ecafcd0376a9       /               ext4            rw      0 1
 
 # /dev/sda1
-UUID=2B16-BFAB      	/boot     	vfat      	rw,noatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro,nosuid,noexec,nodev	0 2
+UUID=2B16-BFAB          /boot           vfat            rw,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro,nosuid,noexec,nodev        0 2
 
 # /dev/sda2
-UUID=23768a03-9b4d-4185-9283-5335b43c6a36	/home     	ext4      	rw,noatime,nosuid,noexec,nodev		0 2
+UUID=23768a03-9b4d-4185-9283-5335b43c6a36       /home           ext4            rw,nosuid,noexec,nodev          0 2
 
-# /dev/sdb2
-UUID=bd3b5c86-641d-4906-b5bd-50e7f7f564a8	none      	swap      	defaults  	0 0
+# /dev/nvme0n1p2
+UUID=4ff83761-e92a-4766-8d43-f5122a6770b8       none            swap            defaults        0 0
 
 proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0
-
-#hugetlbfs /dev/hugepages hugetlbfs mode=1770,gid=974 0 0
+tmpfs /dev/shm tmpfs nosuid,nodev,noexec 0 0
+tmpfs /tmp tmpfs defaults,nosuid,noexec,nodev 0 0
