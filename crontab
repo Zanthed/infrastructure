@@ -1,2 +1,2 @@
 0 0,12 * * * root sleep 3144 && certbot renew --deploy-hook "/usr/local/src/certbot-ocsp-fetcher/certbot-ocsp-fetcher -w -o /etc/nginx/ocsp-cache" --must-staple --keep --reuse-key -q
-*/60 * * * * /usr/local/bin/time.sh
+*/15 * * * * root /usr/local/bin/time.sh
