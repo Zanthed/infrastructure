@@ -1,5 +1,0 @@
-default:
-  default: true
-  children:
-    backpack.user: true
-    backpack.size.6: true
