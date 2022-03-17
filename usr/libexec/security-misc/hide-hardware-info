@@ -1,0 +1,96 @@
+#!/bin/bash
+
+## Copyright (C) 2012 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
+set -e
+
+sysfs_whitelist=1
+cpuinfo_whitelist=1
+
+## https://www.whonix.org/wiki/Security-misc#selinux
+selinux=0
+
+shopt -s nullglob
+
+## Allows for disabling the whitelist.
+for i in /etc/hide-hardware-info.d/*.conf
+do
+  bash -n "${i}"
+  source "${i}"
+done
+
+create_whitelist() {
+  if [ "${1}" = "sysfs" ]; then
+    whitelist_path="/sys"
+  elif [ "${1}" = "cpuinfo" ]; then
+    whitelist_path="/proc/cpuinfo"
+  else
+    echo "ERROR: ${1} is not a correct parameter."
+    exit 1
+  fi
+
+  if grep -q "${1}" /etc/group; then
+    ## Changing the permissions of /sys recursively
+    ## causes errors as the permissions of /sys/kernel/debug
+    ## and /sys/fs/cgroup cannot be changed.
+    chgrp -fR "${1}" "${whitelist_path}" || true
+
+    chmod o-rwx "${whitelist_path}"
+  else
+    echo "ERROR: The ${1} group does not exist, the ${1} whitelist was not created."
+  fi
+}
+
+## sysfs and debugfs expose a lot of information
+## that should not be accessible by an unprivileged
+## user which includes hardware info, debug info and
+## more. This restricts /sys, /proc/cpuinfo, /proc/bus
+## and /proc/scsi to the root user only. This hides
+## many hardware identifiers from ordinary users
+## and increases security.
+for i in /proc/cpuinfo /proc/bus /proc/scsi /sys
+do
+  if [ -e "${i}" ]; then
+    if [ "${i}" = "/sys" ]; then
+      ## Whitelist for /sys.
+      if [ "${sysfs_whitelist}" = "1" ]; then
+        create_whitelist sysfs
+      else
+        chmod og-rwx /sys
+        echo "INFO: The sysfs whitelist is not enabled. Some things may not work properly."
+      fi
+    elif [ "${i}" = "/proc/cpuinfo" ]; then
+      ## Whitelist for /proc/cpuinfo.
+      if [ "${cpuinfo_whitelist}" = "1" ]; then
+        create_whitelist cpuinfo
+      else
+        chmod og-rwx /proc/cpuinfo
+        echo "INFO: The cpuinfo whitelist is not enabled. Some things may not work properly."
+      fi
+    else
+      chmod og-rwx "${i}"
+    fi
+  else
+    ## /proc/scsi doesn't exist on Debian so errors
+    ## are expected here.
+    if ! [ "${i}" = "/proc/scsi" ]; then
+      echo "ERROR: ${i} could not be found."
+    fi
+  fi
+done
+
+## https://www.whonix.org/wiki/Security-misc#selinux
+##
+## on SELinux systems, at least /sys/fs/selinux
+## must be visible to unprivileged users, else
+## SELinux userspace utilities will not function
+## properly
+if [ -d /sys/fs/selinux ]; then
+    if [ "${selinux}" = "1" ]; then
+        chmod o+rx /sys /sys/fs /sys/fs/selinux
+        echo "INFO: SELinux mode enabled. Restrictions loosened slightly in order to allow userspace utilities to function."
+    else
+        echo "INFO: SELinux detected, but SELinux mode is not enabled. Some userspace utilities may not work properly."
+    fi
+fi
