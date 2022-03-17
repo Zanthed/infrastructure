@@ -1,28 +1,55 @@
-DataDirectory /var/lib/tor
 User tor
-ORPort 0.0.0.0:993
-ServerTransportPlugin obfs4 exec /usr/bin/obfs4proxy
-ServerTransportListenAddr obfs4 0.0.0.0:8888
-ContactInfo <june@eridan.me>
-Nickname ZanthedBridge
-SocksPort 0
-BridgeRelay 1
-ExitRelay 0
-
-ExtOrPort auto
-Log notice stdout
-
-ExitPolicy reject *:*
-DisableDebuggerAttachment 1
-ControlPort 9051
-CookieAuthentication 1
-
-RelayBandwidthRate 400 Mbits
-RelayBandwidthBurst 650 Mbits
-
+Nickname caligulasAquarium
+# fingerprint: BBBE0F946E35F0BB3CC48605D31202F5FF1C8F34
+ContactInfo june <@> eridan <.> me
 HardwareAccel 1
-#DisableAllSwap 1
-#MaxMemInQueues 4096 Mbytes
-
-HiddenServiceDir /var/lib/tor/tor-hidden-service/
-HiddenServicePort 80 unix:/var/run/tor-hidden-service.sock
+ExitRelay 1
+IPv6Exit 1
+ReducedExitPolicy 1
+ExitPolicy accept *:20-21     # FTP
+ExitPolicy accept *:43        # WHOIS
+ExitPolicy accept *:53        # DNS
+ExitPolicy accept *:80        # HTTP
+ExitPolicy accept *:110       # POP3
+ExitPolicy accept *:143       # IMAP
+ExitPolicy accept *:220       # IMAP3
+ExitPolicy accept *:443       # HTTPS
+ExitPolicy accept *:853       # DNS over TLS
+ExitPolicy accept *:873       # rsync
+ExitPolicy accept *:989-990   # FTPS
+ExitPolicy accept *:991       # NAS Usenet
+ExitPolicy accept *:992       # TELNETS
+ExitPolicy accept *:993       # IMAPS
+ExitPolicy accept *:995       # POP3S
+ExitPolicy accept *:1194      # OpenVPN
+ExitPolicy accept *:1293      # IPSec
+ExitPolicy accept *:3690      # SVN Subversion
+ExitPolicy accept *:4321      # RWHOIS
+ExitPolicy accept *:5222-5223 # XMPP, XMPP SSL
+ExitPolicy accept *:5228      # Android Market
+ExitPolicy accept *:6660-6667 # IRC
+ExitPolicy accept *:6697      # IRC over TLS
+ExitPolicy accept *:9418      # git
+#### I don't want to accept ports over 10000 as
+#### they are frequently used for torrenting and piracy.
+#### This will reduce people who torrent over Tor on my node,
+#### and reduce potential DMCAs.
+###ExitPolicy accept *:11371
+###ExitPolicy accept *:64738
+ExitPolicy reject *:*
+SOCKSPort 9050
+ORPort 9000
+ORPort [2605:6400:30:f154:dece:a5ed:dece:a5ed]:9000
+Address tor-exit-node1.eridan.me
+Log notice syslog
+DataDirectory /var/lib/tor
+## Need to figure out how to do this differently as
+## eridan.me is HSTS preloaded which breaks users from
+## accessing this.
+##DirPortFrontPage /etc/tor/tor-exit-notice.html
+DisableDebuggerAttachment 1
+RelayBandwidthRate 150 Mbits
+RelayBandwidthBurst 325 Mbits
+### Might host one in the future on the same node.
+###HiddenServiceDir /var/lib/tor/hidden_service/
+###HiddenServicePort 80 unix:/var/run/tor-hidden-service.sock
