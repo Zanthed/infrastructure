@@ -1,0 +1,10 @@
+[Unit]
+Description=Sync time securely every day
+After=network.target
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
