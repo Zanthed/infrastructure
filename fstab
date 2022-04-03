@@ -11,8 +11,8 @@ UUID=5331-F0B8          /boot           vfat            rw,noatime,fmask=0022,dm
 # /dev/vda3
 UUID=6dbe6f9f-ca47-4121-9a34-a024fbd8510b       /home           xfs             rw,noatime,attr2,inode64,logbufs=8,logbsize=32k,noquota,nosuid,noexec,nodev     0 2
 
-/var     /var       xfs    defaults,bind,nosuid
-/run    /run    xfs     defaults,bind,nosuid,nodev
+/var     /var       xfs    defaults,bind,nosuid   1 2
+/run    /run    xfs     defaults,bind,nosuid,nodev    1 2
 
 proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0
 tmpfs /dev/shm tmpfs nosuid,nodev,noexec 0 0
