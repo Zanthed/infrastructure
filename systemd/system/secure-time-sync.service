@@ -1,0 +1,11 @@
+[Unit]
+Description=Secure HTTPS or Tor Time Sync
+After=network.target
+
+[Service]
+User=root
+Type=oneshot
+ExecStart=/usr/bin/secure-time-sync
+
+[Install]
+WantedBy=multi-user.target
